@@ -37,5 +37,40 @@ English: {text}
             return text  # Fallback on error
 
     def batch_translate(self, texts: list[str], target_lang: str = "zh") -> list[str]:
-        """Translate multiple texts."""
-        return [self.translate(text, target_lang) for text in texts]
+        """Translate multiple texts in a single API call."""
+        if not self.client:
+            return texts  # Fallback to original texts
+
+        # Filter out empty texts
+        non_empty = [(i, t) for i, t in enumerate(texts) if t and t.strip()]
+        if not non_empty:
+            return texts
+
+        # Build prompt with all texts numbered
+        texts_to_translate = [t for _, t in non_empty]
+        numbered_texts = "\n".join(f"{i+1}. {t}" for i, t in enumerate(texts_to_translate))
+
+        prompt = f"""Translate each of the following English texts to {target_lang}. Output one translation per line, numbered to match.
+
+{numbered_texts}
+
+{target_lang.title()} (one per line, numbered 1, 2, 3...):"""
+
+        try:
+            response = self.client.messages.create(
+                model=self.model,
+                max_tokens=1000,
+                messages=[{"role": "user", "content": prompt}]
+            )
+
+            translation_lines = response.content[0].text.strip().split("\n")
+            translations = [line.split(". ", 1)[-1].strip() if ". " in line else line.strip() for line in translation_lines]
+
+            # Build result mapping original indices to translations
+            result = list(texts)  # Copy original
+            for idx, translation in zip([i for i, _ in non_empty], translations):
+                result[idx] = translation
+
+            return result
+        except Exception:
+            return texts  # Fallback on error

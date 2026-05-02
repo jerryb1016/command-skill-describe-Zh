@@ -22,16 +22,25 @@ class DescribeZH:
         """Get all skills with translated descriptions."""
         skills = self.scanner.scan()
 
-        for skill in skills:
-            cache_key = f"{skill.cli_type}:{skill.path}"
+        # Collect descriptions that need translation (not cached)
+        non_cached_indices = []
+        non_cached_texts = []
 
-            # Check cache first
+        for i, skill in enumerate(skills):
+            cache_key = f"{skill.cli_type}:{skill.path}"
             cached = self.cache.get(cache_key, skill.description)
             if cached:
                 skill.translated_description = cached
             else:
-                # Translate and cache
-                translation = self.translator.translate(skill.description)
+                non_cached_indices.append(i)
+                non_cached_texts.append(skill.description)
+
+        # Batch translate all non-cached descriptions
+        if non_cached_texts:
+            translations = self.translator.batch_translate(non_cached_texts)
+            for idx, translation in zip(non_cached_indices, translations):
+                skill = skills[idx]
+                cache_key = f"{skill.cli_type}:{skill.path}"
                 skill.translated_description = translation
                 self.cache.set(cache_key, skill.description, translation)
 
