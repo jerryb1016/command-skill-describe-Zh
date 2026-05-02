@@ -19,12 +19,8 @@ class SkillScanner:
             if not path.exists():
                 continue
 
-            if self.cli_type == CLIType.CLAUDE_CODE and path.name == "commands":
-                # Scan .md files in commands directory
-                skills.extend(self._scan_commands_dir(path))
-            else:
-                # Scan skill directories with SKILL.md
-                skills.extend(self._scan_skills_dir(path))
+            # Scan skill directories with SKILL.md
+            skills.extend(self._scan_skills_dir(path))
 
         return skills
 
