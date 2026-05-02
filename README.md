@@ -1,6 +1,8 @@
 # command-skill-describe-zh
 
-将 CLI Skill/commands的 description 翻译为中文的工具。
+> 天下苦学渣久矣，本人爱折腾，无奈英语水平有限，却不想被时代抛弃。
+
+将 CLI Skill/命令的 description 翻译为中文的工具。
 
 ## 功能
 
