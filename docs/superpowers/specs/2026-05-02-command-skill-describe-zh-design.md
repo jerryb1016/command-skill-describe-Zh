@@ -22,12 +22,17 @@
 
 ## 支持的 CLI 工具
 
-| CLI 工具 | 安装路径 | 命令格式 |
-|---------|---------|---------|
-| Claude Code | `~/.claude/skills/` | `/command` |
-| OpenCode | `~/.config/opencode/skills/` 或 `~/.claude/skills/` | `/command` |
-| OpenClaw | `./skills/` | `/skill-name` |
-| Hermes | 待确认 | `/command` |
+| CLI 工具 | 斜杠命令来源 | 路径 |
+|---------|------------|------|
+| Claude Code | 内置命令 + 自定义命令 + 插件安装命令 | `~/.claude/commands/*.md` (自定义)<br>`~/.claude/skills/*/SKILL.md` (插件) |
+| OpenCode | Skill 系统 | `~/.config/opencode/skills/` 或 `~/.claude/skills/` |
+| OpenClaw | Skill 系统 | `./skills/` |
+| Hermes | 待确认 | 待确认 |
+
+**Claude Code 命令来源说明**：
+1. **内置命令** - CLI 内置的斜杠命令
+2. **自定义命令** - `~/.claude/commands/*.md` 中用户自己创建的斜杠命令
+3. **插件安装命令** - 通过 `/plugin install` 安装的第三方 Skill，其描述文件位于 `~/.claude/skills/<plugin-name>/SKILL.md`
 
 ## 核心机制
 
@@ -66,8 +71,14 @@ class SkillScanner:
         pass
 
     def extract_description(self, skill_path: str) -> str:
-        """从 SKILL.md 中提取 description"""
+        """从 SKILL.md 或 .md 文件中提取 description"""
         pass
+
+# Claude Code 需要扫描多个来源
+CC_SCAN_PATHS = {
+    "commands": "~/.claude/commands/",      # 自定义斜杠命令
+    "skills": "~/.claude/skills/"           # 插件安装的 Skill
+}
 ```
 
 ### 2. 翻译器
