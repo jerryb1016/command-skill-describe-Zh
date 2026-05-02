@@ -1,1 +1,0 @@
-# Claude Code Skills ZH - Chinese translation for skill descriptions

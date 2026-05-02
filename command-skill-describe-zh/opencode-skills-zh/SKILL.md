@@ -1,24 +1,18 @@
 ---
 name: describe-zh
-description: 将所有已安装 Skill 的描述翻译为中文 | Translate all installed skill descriptions to Chinese
+description: Translate all installed skill descriptions to Chinese. Use when user wants to see skill descriptions in Chinese or asks to translate skills.
 ---
 
 # describe-zh
 
-自动将系统中所有已安装 Skill 的 description 翻译为中文。
+Scan all installed skills and translate their descriptions to Chinese.
 
-## 功能
+## Scan Paths
 
-1. 扫描 `~/.config/opencode/skills/` 中的 Skill
-2. 扫描 `~/.claude/skills/` 中的 Skill
-3. 调用 AI API 将每个 Skill 的 description 翻译为中文
-4. 返回翻译后的 Skill 列表
+- `~/.config/opencode/skills/`
+- `~/.claude/skills/`
 
-## 使用
+## Translation
 
-安装后，在 OpenCode 中输入 `/describe-zh` 查看翻译后的所有 Skill 描述。
-
-## 配置
-
-环境变量：
-- `ANTHROPIC_API_KEY`: Anthropic API Key（必需）
+Use `ANTHROPIC_API_KEY` environment variable for AI translation.
+Cache translations locally to avoid repeated API calls.
