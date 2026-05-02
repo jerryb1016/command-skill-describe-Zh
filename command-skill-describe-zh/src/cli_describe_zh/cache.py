@@ -15,7 +15,7 @@ class TranslationCache:
     def _get_cache_path(self, key: str) -> Path:
         """Get the cache file path for a key."""
         import hashlib
-        key_hash = hashlib.md5(key.encode()).hexdigest()
+        key_hash = hashlib.sha256(key.encode()).hexdigest()
         return self.cache_dir / f"{key_hash}.json"
 
     def get(self, key: str, original: str) -> Optional[str]:

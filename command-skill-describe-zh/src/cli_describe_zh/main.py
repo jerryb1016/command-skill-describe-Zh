@@ -1,4 +1,5 @@
 from typing import List
+from datetime import datetime
 from cli_describe_zh.cli_detector import CLIDetector, CLIType
 from cli_describe_zh.scanner import SkillScanner
 from cli_describe_zh.translator import Translator
@@ -27,7 +28,7 @@ class DescribeZH:
         non_cached_texts = []
 
         for i, skill in enumerate(skills):
-            cache_key = f"{skill.cli_type}:{skill.path}"
+            cache_key = f"{skill.cli_type}:{skill.name}:{skill.path}"
             cached = self.cache.get(cache_key, skill.description)
             if cached:
                 skill.translated_description = cached
@@ -40,8 +41,9 @@ class DescribeZH:
             translations = self.translator.batch_translate(non_cached_texts)
             for idx, translation in zip(non_cached_indices, translations):
                 skill = skills[idx]
-                cache_key = f"{skill.cli_type}:{skill.path}"
+                cache_key = f"{skill.cli_type}:{skill.name}:{skill.path}"
                 skill.translated_description = translation
+                skill.translated_at = datetime.now()
                 self.cache.set(cache_key, skill.description, translation)
 
         return skills
