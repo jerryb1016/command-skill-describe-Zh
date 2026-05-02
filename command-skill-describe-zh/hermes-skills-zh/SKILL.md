@@ -5,11 +5,13 @@ description: 将已安装 skill 的 description 改为中文。当用户想让 s
 
 # describe-zh
 
-将 skill 的 `SKILL.md` description 字段改为中文。
+将 Hermes 中所有 skill 的描述改为中文。
 
-## 使用方法
+## 修改范围
 
-1. 读取 `~/.hermes/skills/<skill-name>/SKILL.md` 或 `~/.hermes/commands/<skill-name>/SKILL.md`
+### Skills
+
+1. 读取 `~/.hermes/skills/<skill-name>/SKILL.md`
 2. 找到 `description:` 字段
 3. 将英文描述翻译为中文
 4. 写回文件
@@ -29,5 +31,5 @@ description: 帮助用户发现和安装 agent skills。当用户问"怎么做X"
 ## 注意事项
 
 - 只修改 `description:` 字段
-- 保持 YAML 格式正确
+- 保持 YAML frontmatter 格式正确
 - 翻译后重启使更改生效
