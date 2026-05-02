@@ -18,10 +18,13 @@ description: 将已安装 skill 的 description 改为中文。当用户想让 s
 
 ### Commands (`~/.claude/commands/`)
 
-1. 读取 `~/.claude/commands/<command-name>.md`
-2. 找到首行的 `description:` 字段（YAML frontmatter 中）
-3. 将英文描述翻译为中文
-4. 写回文件
+commands 目录结构为 `~/.claude/commands/<command>/<subcommand>.md`
+
+1. 遍历 `~/.claude/commands/` 下每个子目录
+2. 读取每个 `.md` 文件的 frontmatter
+3. 找到 `description:` 字段
+4. 将英文描述翻译为中文
+5. 写回文件
 
 ## 翻译示例
 
