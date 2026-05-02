@@ -6,6 +6,20 @@
 **项目目标**: 跨 CLI 工具的命令和 Skill 描述中文化适配器
 **核心功能**: 自动翻译所有已安装 Skill 的 description 字段为中文
 
+## 验收标准（Acceptance Criteria）
+
+**最终目标**: 用户在任意支持的 CLI 中输入 `/` 后，显示的命令列表中，每个命令的一句话描述（description）显示为中文。
+
+**示例效果**:
+| 原英文 | 翻译后中文 |
+|--------|-----------|
+| `exit` - Exit the current session | `exit` - 退出当前会话 |
+| `help` - Show help information | `help` - 显示帮助信息 |
+| `undo` - Undo the last action | `undo` - 撤销上一个操作 |
+| `skills` - Manage installed skills | `skills` - 管理已安装的技能 |
+
+**验收确认**: 用户输入 `/` → 显示命令列表 → 所有 description 为中文
+
 ## 支持的 CLI 工具
 
 | CLI 工具 | 安装路径 | 命令格式 |
