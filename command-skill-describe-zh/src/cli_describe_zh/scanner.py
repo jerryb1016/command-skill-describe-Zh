@@ -1,4 +1,5 @@
 import re
+import yaml
 from pathlib import Path
 from typing import List, Optional
 from cli_describe_zh.models import SkillInfo
@@ -86,8 +87,21 @@ class SkillScanner:
         )
 
     def _extract_frontmatter_value(self, content: str, key: str) -> Optional[str]:
-        """Extract a value from YAML frontmatter."""
-        match = re.search(rf'^{key}:\s*(.+)$', content, re.MULTILINE)
-        if match:
-            return match.group(1).strip().strip('"\'')
-        return None
+        """Extract value from YAML frontmatter."""
+        # Split content at first --- (end of frontmatter)
+        parts = content.split('---', 2)
+        if len(parts) < 3:
+            return None
+
+        frontmatter = parts[1]
+        try:
+            data = yaml.safe_load(frontmatter)
+            if data is None:
+                return None
+            value = data.get(key)
+            # Handle None or non-string values
+            if value is None:
+                return None
+            return str(value)
+        except yaml.YAMLError:
+            return None
